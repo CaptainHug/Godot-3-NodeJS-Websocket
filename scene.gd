@@ -10,7 +10,7 @@ func _process(delta):
 
 func _ready():
 	websocket = preload('websocket.gd').new(self)
-	websocket.start('godot-websocket-tutorial-marcosbitetti.c9users.io',80)  # Replace with site:port for your node.js script
+	websocket.start('godot-websocket-tutorial-marcosbitetti.c9users.io',3000)  # Replace with site:port for your node.js script
 	websocket.set_receiver(self,'_on_message_received')
 
 func _on_message_received(msg):
