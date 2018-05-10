@@ -1,0 +1,11 @@
+{
+  "name": "godot-websocket-server",
+  "version": "0.0.0",
+  "description": "NodeJS Server files for Godot-3-NodeJS-Websocket",
+  "main": "app.js",
+  "author": "",
+  "dependencies": {
+    "http": "*",
+    "websocket": "*"
+  }
+}
