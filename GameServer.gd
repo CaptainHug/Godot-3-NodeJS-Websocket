@@ -16,7 +16,7 @@ var client = {
 	channel = "global",
 	connected = false,
 	username = "",
-	position: {x:0, y:0}
+	position = {x=0, y=0}
 }
 
 # list of all users in current channel
