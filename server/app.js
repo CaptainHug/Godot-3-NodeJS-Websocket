@@ -34,10 +34,10 @@ wsServer.on('request', function(request) {
 	
 	// TODO: store client connection with data
 	var client = {
+		connection: connection,
 		ID: -1,
 		channel: "global",
 		connected: false,
-		connection: connection,
 		username: "",
 		position: {x:0, y:0}
 	};
@@ -51,6 +51,7 @@ wsServer.on('request', function(request) {
 		if (msg.type === 'utf8') {
 			
 			var messageData = JSON.parse(msg.utf8Data);
+			var responseObj;
 			
 			if(messageData) {
 				console.log('Received Message: ' + JSON.stringify(messageData));
@@ -61,8 +62,14 @@ wsServer.on('request', function(request) {
 						if(client && !client.connected) {
 							client.connected = true;
 							client.username = messageData.data.username;
-							console.log("connecting: client = " + JSON.stringify({client:{ID:client.ID, channel:client.channel, connected:client.connected, username:client.username}}));
-							// TODO: dispatch "connected" event - send the server version of the client data back to the player
+							
+							var clientResponseData = {ID:client.ID, channel:client.channel, connected:client.connected, username:client.username};
+							console.log("connecting: client = " + JSON.stringify(clientResponseData));
+							
+							// dispatch "connected" event - send the server version of the client data back to the player
+							responseObj = {event:"connected", data:{client:clientResponseData}};
+							connection.sendUTF(JSON.stringify(responseObj));
+							
 							// TODO: dispatch "join" event to all players in channel
 						}
 					break;
