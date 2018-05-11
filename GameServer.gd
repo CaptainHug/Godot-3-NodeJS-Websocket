@@ -1,5 +1,7 @@
 # GameServer
-# wrapper around the websocket class for communicating with the nodejs / socket.io based game app server
+# Singleton wrapper around the websocket class for communicating with the nodejs / socket.io based game app server
+
+extends Node
 
 var websocket
 var error
@@ -12,23 +14,25 @@ var server = {
 var client = {
 	ID = -1,
 	channel = "global",
-	connected = false
+	connected = false,
+	username = "",
+	position: {x:0, y:0}
 }
 
+# list of all users in current channel
+var users = [];
 
-func _init(host="127.0.0.1", port=3000):
-	print("_init: host = " + host + " | port = " + String(port))
+
+func connect(host="127.0.0.1", port=3000):
+	print("connect: host = " + host + " | port = " + String(port))
 	
 	server.host = host
 	server.port = port
 	
 	websocket = preload('websocket.gd').new(null)
-
-
-func connect():
 	if(websocket):
 		error = websocket.connect(server.host, server.port)
-		if error: print(error)
+		if error: return error
 		websocket.set_receiver(self, "_on_message_received")
 
 
@@ -37,7 +41,7 @@ func disconnect():
 	pass
 
 
-func update():
+func _process(delta):
 	if(websocket and !error):
 		error = websocket.listen()
 		

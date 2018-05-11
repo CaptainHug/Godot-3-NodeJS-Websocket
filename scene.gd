@@ -1,19 +1,13 @@
 extends Node
 
-var gameServer
 
 func _ready():
-	gameServer = preload("res://GameServer.gd").new("192.168.113.202", 3000)
-	# TODO: get error state
-	gameServer.connect()
-
-
-func _process(delta):
-	gameServer.update()
+	var error = GameServer.connect("192.168.113.202", 3000)
+	if(error): print("Connection error: " + error)
 
 
 func _on_Button_pressed():
-	gameServer.send_message("connect", {username="one", password="what"})
+	GameServer.send_message("connect", {username="one"})
 
 
 

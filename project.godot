@@ -13,3 +13,7 @@ config_version=3
 config/name="Godot-3-NodeJS-Websocket"
 run/main_scene="res://scene.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameServer="*res://GameServer.gd"
